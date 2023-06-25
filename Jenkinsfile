@@ -2,9 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Clean Workspace') {
+        stage('Clean Workspace/Clean Kube') {
             steps {
                 cleanWs()
+                script {
+                    dir('helm') {
+                        try {      
+                            withKubeConfig([credentialsId: 'kube-config']) {        
+                                sh 'helm uninstall locacar'
+                            }
+                        } catch (Exception e) {
+                                sh "echo $e"
+                        }
+                    }
+                }
             }
         }
 
@@ -192,18 +203,7 @@ pipeline {
         }
 
         stage('API Deployment') {
-            steps {
-                script {
-                    dir('helm') {
-                        try {      
-                            withKubeConfig([credentialsId: 'kube-config']) {        
-                                sh 'helm uninstall locacar'
-                            }
-                        } catch (Exception e) {
-                                sh "echo $e"
-                        }
-                    }
-                }
+            steps {                
                 script {
                     dir('helm') {
                         try {       
