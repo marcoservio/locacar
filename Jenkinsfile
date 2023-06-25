@@ -8,7 +8,7 @@ pipeline {
             }
         }
 
-        stage('Clean Kube') {
+        stage('Clean Kubernetes') {
             steps {
                 script {
                     try {      
