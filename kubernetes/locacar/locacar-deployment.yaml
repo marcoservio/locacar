@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locacar-deployment
+  namespace: locacar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locacar
+  template:
+    metadata:
+      labels:
+        app: locacar
+    spec:
+      containers:
+        - name: locacar-container
+          image: marcoservio/locacar:latest
+          ports:
+            - containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /swagger
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 3
+            initialDelaySeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /swagger
+              port: 80
+            periodSeconds: 10
+            failureThreshold: 5
+            initialDelaySeconds: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100M
+            limits:
+              cpu: 100m
+              memory: 200M

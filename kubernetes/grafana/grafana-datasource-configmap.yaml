@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: grafana-datasource-configmap
-  namespace: catalogo-carros
+  namespace: locacar
 data:
   prometheus.yaml: |-
     {

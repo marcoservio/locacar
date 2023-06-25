@@ -10,6 +10,7 @@ sonarqube_extensions/
 sonarqube_logs/
 src/.sonarqube/
 src/.sonarqube/conf/
+kubernetes/kube-config/
 
 # User-specific files
 *.suo
@@ -34,6 +35,7 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
+.vscode/
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 

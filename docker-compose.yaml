@@ -10,13 +10,13 @@ networks:
 
 
 services:
-  mysql-catalogo-api:
+  mysql-locacar:
     image: mysql
     container_name: mysql-locacar
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: 'catalogo-carros'
+      MYSQL_DATABASE: 'locacar'
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
     expose:
@@ -24,28 +24,28 @@ services:
     networks:
       - database
 
-  app-catalogo-api:
+  app-locacar:
     build:
       context: ./src/
       dockerfile: Dockerfile
       args:
         version: 1
-    image: app-catalogo-api
-    container_name: app-catalogo-api
+    image: app-locacar
+    container_name: app-locacar
     networks:
       - api
       - database
     healthcheck:
-      test: "curl -sS http://app-catalogo-api/swagger"
+      test: "curl -sS http://app-locacar/swagger"
       interval: 1s
       timeout: 30s
       retries: 60
     depends_on:
-      - mysql-catalogo-api
+      - mysql-locacar
 
-  proxy-catalogo-api:
+  proxy-locacar:
     image: nginx
-    container_name: proxy-catalogo-api
+    container_name: proxy-locacar
     restart: always
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -56,11 +56,25 @@ services:
       - proxy
       - api
     depends_on:
-      - app-catalogo-api
+      - app-locacar
 
-  prometheus-catalogo-api:
+  nginx-prometheus-exporter-locacar:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: nginx-prometheus-exporter-locacar
+    restart: always
+    ports:
+      - 9113:9113
+    command:
+      - '-nginx.scrape-uri=http://proxy-locacar:80/metrics-nginx'
+    networks:
+      - proxy
+      - monit
+    depends_on:
+      - proxy-locacar
+
+  prometheus-locacar:
     image: prom/prometheus
-    container_name: prometheus-catalogo-api
+    container_name: prometheus-locacar
     restart: always
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -78,11 +92,11 @@ services:
       - monit
       - api
     depends_on:
-      - proxy-catalogo-api
+      - nginx-prometheus-exporter-locacar
 
-  alertmanager-catalogo-api:
+  alertmanager-locacar:
     image: prom/alertmanager
-    container_name: alertmanager-catalogo-api
+    container_name: alertmanager-locacar
     volumes:
       - ./alertmanager:/etc/alertmanager/:ro
     ports:
@@ -92,11 +106,11 @@ services:
     networks:
       - monit
     depends_on:
-      - prometheus-catalogo-api
+      - prometheus-locacar
 
-  grafana-catalogo-api:
+  grafana-locacar:
     image: grafana/grafana
-    container_name: grafana-catalogo-api
+    container_name: grafana-locacar
     volumes:
       - ./grafana:/var/lib/grafana
     restart: always
@@ -105,16 +119,16 @@ services:
     networks:
       - monit
     depends_on:
-      - alertmanager-catalogo-api
+      - alertmanager-locacar
 
-  client-catalogo-api:
+  client-locacar:
     build:
       context: ./client/
       dockerfile: Dockerfile
-    image: client-catalogo-api
-    container_name: client-catalogo-api
+    image: client-locacar
+    container_name: client-locacar
     restart: unless-stopped
     networks:
       - proxy
     depends_on:
-      - grafana-catalogo-api
+      - grafana-locacar

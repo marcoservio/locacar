@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-prometheus-exporter-deployment
-  namespace: catalogo-carros
+  namespace: locacar
 spec:
   replicas: 1
   selector:
@@ -19,7 +19,7 @@ spec:
           ports:
             - containerPort: 9113
           args:
-            - -nginx.scrape-uri=http://nginx-clusterip:80/metrics-nginx
+            - -nginx.scrape-uri=http://nginx-clusterip/metrics-nginx
           resources:
             requests:
               cpu: 200m

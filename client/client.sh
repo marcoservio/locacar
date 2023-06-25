@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HOST='proxy-catalogo-api'
+HOST='proxy-locacar'
+#HOST='nginx-clusterip'
 
 while true
     do
@@ -25,6 +26,7 @@ while true
     #     fi
 
 	curl --silent --output /dev/null http://${HOST}/WeatherForecast
+	curl --silent --output /dev/null http://${HOST}/WeatherForecast/teste
 
 	sleep 0.50
 done

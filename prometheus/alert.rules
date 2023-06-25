@@ -1,15 +1,15 @@
 groups:
-- name: ops-catalogo-carro
+- name: ops-locacar
   rules:
   - alert: 'ERRO 404'
     expr: (sum(rate(http_request_duration_seconds_count{code="404"}[1m])) / sum(rate(http_request_duration_seconds_count{}[1m]))) >= 0.01
     for: 1m
     labels:
-      app: 'app-catalogo-api'
+      app: 'app-locacar'
       severity: 'critical'
-      group: 'ops-catalogo-carro'
+      group: 'ops-locacar'
       env: 'production'
     annotations:
       title: 'ERRO 404'
       summary: 'Erro 404 acima de 1% no último minuto.'
-      description: 'API catalogo carros esta com taxa de erros 404 esta acima de 1% no último minuto'
+      description: 'API LocaCar esta com taxa de erros 404 esta acima de 1% no último minuto'

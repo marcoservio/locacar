@@ -3,11 +3,11 @@ version: "3.9"
 services:
   mysql-catalogo-api:
     image: mysql
-    container_name: mysql-catalogo-api
+    container_name: mysql-locacar-test
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: 'catalogo-carros'
+      MYSQL_DATABASE: 'locacar'
     volumes:
       - .././mysql:/docker-entrypoint-initdb.d
     ports:

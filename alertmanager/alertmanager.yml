@@ -1,20 +1,20 @@
 global:
-  slack_api_url: "https://hooks.slack.com/services/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"
+  slack_api_url: "https://hooks.slack.com/services/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"
 
 templates:
   - "/etc/alertmanager/template/*.tmpl"
 
 route:
   group_by: [app, group, env]
-  receiver: "ops-catalogo-carro"
+  receiver: "ops-locacar"
   group_wait: 15s
   group_interval: 15s
   repeat_interval: 1m
 
 receivers:
-  - name: "ops-catalogo-carro"
+  - name: "ops-locacar"
     slack_configs:
-      - channel: "#catalogo-carro-api"
+      - channel: "#locacar-api"
         send_resolved: true
         icon_url: https://avatars3.githubusercontent.com/u/3380462
         title: |-

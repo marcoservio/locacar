@@ -8,11 +8,16 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-            - alertmanager-catalogo-api:9093
+            - alertmanager-locacar:9093
 
 scrape_configs:
-  - job_name: "app-catalogo-api-job"
+  - job_name: "locacar-job"
     metrics_path: /metrics
     static_configs:
       - targets:
-          - app-catalogo-api:80
+          - app-locacar:80
+
+  - job_name: "nginx-job"
+    static_configs:
+      - targets:
+          - nginx-prometheus-exporter-locacar:9113

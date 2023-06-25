@@ -114,7 +114,7 @@ Certifique-se de que seu cluster Kubernetes esteja em execução e configurado c
 4. Caso seja necessário, você pode excluir tudo:
 
    ```
-   kubectl delete namespace locacar
+   kubectl delete ns locacar
    ```
 
 
