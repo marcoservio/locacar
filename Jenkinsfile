@@ -111,9 +111,9 @@ pipeline {
         stage('SonarQube Check') {
             steps {
                 script {
-                    slackSend (color: 'warning', message: "Para continuar inicialize o SonarQube. Acesse [Janela de 5 minutos]: ${JOB_URL}", tokenCredentialId: 'slack-token')
+                    slackSend (color: 'warning', message: "Antes de prosseguir, por favor, verifique se o SonarQube está disponível e totalmente inicializado. Acesse [Janela de 5 minutos]: ${JOB_URL}", tokenCredentialId: 'slack-token')
                     timeout(time: 5, unit: 'MINUTES') {
-                        input(id: 'deploy-gate', message: 'Ready to go?', ok: 'Ok')
+                        input(id: 'sonarqube-check', message: 'Verificação do SonarQube', ok: 'Continuar')
                     }
                 }
             }
