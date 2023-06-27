@@ -1,4 +1,4 @@
-﻿namespace CatalogoCarros.Api.Models
+﻿namespace LocaCar.Api.Models
 {
     public class Carro
     {
@@ -10,10 +10,10 @@
         public string TipoCorpo { get; set; }
         public string Motor { get; set; }
         public string Transmissao { get; set; }
-        public string Quilometragem { get; set; }
-        public string Preco { get; set; }
-        public string NumeroPortas { get; set; }
-        public string CapacidadePassageiros { get; set; }
+        public decimal Quilometragem { get; set; }
+        public decimal Preco { get; set; }
+        public int NumeroPortas { get; set; }
+        public int CapacidadePassageiros { get; set; }
         public string Descricao { get; set; }
     }
 }

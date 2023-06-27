@@ -66,7 +66,7 @@ kubernetes/ - Contém os arquivos de configuração para implantar a API no Kube
 
 
 ## Documentação da API 
-Para obter mais informações sobre os endpoints e a funcionalidade da API de Aluguel de Carros(LocaCar), consulte a [documentação da API no Postman](https://documenter.getpostman.com/view/22241608/2s93sf1qnf).
+Para obter mais informações sobre os endpoints e a funcionalidade da API de Aluguel de Carros(LocaCar), consulte a [documentação da API no Postman](https://documenter.getpostman.com/view/22241608/2s93z87iE2).
 
 
 

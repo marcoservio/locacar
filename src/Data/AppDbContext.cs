@@ -1,9 +1,9 @@
-﻿using CatalogoCarros.Api.Models;
-using CatalogoCarros.Api.Models.Maps;
+﻿using LocaCar.Api.Models;
+using LocaCar.Api.Models.Maps;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace CatalogoCarros.Api.Data
+namespace LocaCar.Api.Data
 {
     public class AppDbContext : DbContext
     {

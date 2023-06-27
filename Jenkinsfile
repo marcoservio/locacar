@@ -37,23 +37,6 @@ pipeline {
             }
         }
 
-        stage('Restore Dependencies') {
-            steps {
-                script {
-                    dir('src') {     
-                        try {               
-                            sh 'dotnet restore'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o restore - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
-                    }
-                }
-            }
-        }
-
         stage('Database Setup') {
             steps {
                 script {
@@ -70,6 +53,23 @@ pipeline {
                 }
             }
         }
+
+        stage('Restore Dependencies') {
+            steps {
+                script {
+                    dir('src') {     
+                        try {               
+                            sh 'dotnet restore'
+                        } catch (Exception e) {
+                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o restore - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+                            sh "echo $e"
+                            currentBuild.result = 'ABORTED'
+                            error('Erro')
+                        }
+                    }
+                }
+            }
+        }        
 
         stage('Run Tests') {
             steps {

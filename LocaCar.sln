@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocaCar.Api", "src\LocaCar.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{42C5EC3D-FE29-4D03-8D70-026980C432D1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocaCar.Testes", "tests\LocaCar.Testes.csproj", "{8740195B-19A1-4F83-9D03-A3ABAC5072BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocaCar.Tests", "tests\LocaCar.Tests.csproj", "{8740195B-19A1-4F83-9D03-A3ABAC5072BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
