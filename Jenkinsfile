@@ -43,6 +43,7 @@ pipeline {
                     dir('src') {
                         try {
                             sh 'docker-compose up -d'
+                            sleep time: 30, unit: 'SECONDS'
                         } catch (Exception e) {
                             slackSend (color: 'error', message: "[ FALHA ] Não foi possivel subir o Banco de Dados MySQL - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
                             sh "echo $e"
