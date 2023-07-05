@@ -64,7 +64,7 @@ namespace LocaCar.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ApiKey]
+        [ApiKeyAttribute]
         public async Task<ActionResult> DeleteCarro(int id)
         {
             var carro = await _carroService.GetById(id);

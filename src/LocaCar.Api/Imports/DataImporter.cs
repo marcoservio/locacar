@@ -7,7 +7,7 @@ namespace LocaCar.Api.Imports
         protected readonly HttpClient _httpClient;
         protected readonly AppDbContext _context;
 
-        public DataImporter(AppDbContext context)
+        protected DataImporter(AppDbContext context)
         {
             _httpClient = new HttpClient();
             _context = context;

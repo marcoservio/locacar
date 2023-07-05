@@ -162,7 +162,7 @@ pipeline {
         stage('Publish Project') {
             steps {
                 script {
-                    dir('src') {
+                    dir('src/LocaCar.Api') {
                         try {
                             sh 'dotnet publish -c Release -o publish'
                         } catch (Exception e) {

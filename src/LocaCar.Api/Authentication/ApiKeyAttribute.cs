@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace LocaCar.Api.Authentication
 {
-    public class ApiKey : Attribute, IAuthorizationFilter
+    [AttributeUsage(AttributeTargets.All)]
+    public class ApiKeyAttribute : Attribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
@@ -18,7 +19,6 @@ namespace LocaCar.Api.Authentication
             if (!configuration["API_KEY"].Equals(extractedApiKey))
             {
                 context.Result = new UnauthorizedObjectResult("Invalid API Key");
-                return;
             }
         }
     }

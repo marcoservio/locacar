@@ -21,7 +21,7 @@ namespace LocaCar.Api.Data
             }
             catch (Exception ex)
             {
-                throw new Exception($"Erro ao inicializar o banco de dados. Erro: {ex.Message}");
+                throw new InvalidOperationException($"Erro ao inicializar o banco de dados. Erro: {ex.Message}");
             }
         }
 
