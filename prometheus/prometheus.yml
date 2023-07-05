@@ -21,3 +21,11 @@ scrape_configs:
     static_configs:
       - targets:
           - nginx-prometheus-exporter-locacar:9113
+
+  - job_name: "netdata-job"
+    metrics_path: "/api/v1/allmetrics"
+    params:
+      format: ["prometheus"]
+    scheme: http
+    static_configs:
+      - targets: ["netdata-locacar:19999"]

@@ -19,22 +19,30 @@ services:
       MYSQL_DATABASE: 'locacar'
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
-    expose:
-      - 3310
     networks:
       - database
 
   app-locacar:
     build:
-      context: ./src/
+      context: ./src/LocaCar.Api
       dockerfile: Dockerfile
       args:
         version: 1
     image: app-locacar
     container_name: app-locacar
+    restart: always
     networks:
       - api
       - database
+    environment:
+      - MYSQL_HOST=mysql-locacar
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=locacar
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - CHATBOT_API_KEY=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
+      - API_KEY_NAME=LocaCar-Api-Key
+      - API_KEY=dbf3515c-f0e3-406b-8b31-5b0db2b17f3b
     healthcheck:
       test: "curl -sS http://app-locacar/swagger"
       interval: 1s
@@ -72,6 +80,27 @@ services:
     depends_on:
       - proxy-locacar
 
+  netdata-locacar:
+    image: netdata/netdata
+    container_name: netdata-locacar
+    restart: always
+    ports:
+      - 19999:19999
+    volumes:
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - api
+      - monit
+    depends_on:
+      - nginx-prometheus-exporter-locacar
+
   prometheus-locacar:
     image: prom/prometheus
     container_name: prometheus-locacar
@@ -92,7 +121,7 @@ services:
       - monit
       - api
     depends_on:
-      - nginx-prometheus-exporter-locacar
+      - netdata-locacar
 
   alertmanager-locacar:
     image: prom/alertmanager

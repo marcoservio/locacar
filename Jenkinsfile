@@ -40,7 +40,7 @@ pipeline {
         stage('Database Setup') {
             steps {
                 script {
-                    dir('src') {
+                    dir('src/LocaCar.Api/') {
                         try {
                             sh 'docker-compose up -d'
                             sleep time: 30, unit: 'SECONDS'
@@ -57,16 +57,14 @@ pipeline {
 
         stage('Restore Dependencies') {
             steps {
-                script {
-                    dir('src') {     
-                        try {               
-                            sh 'dotnet restore'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o restore - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
+                script {   
+                    try {               
+                        sh 'dotnet restore src/LocaCar.Api/'
+                    } catch (Exception e) {
+                        slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o restore - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+                        sh "echo $e"
+                        currentBuild.result = 'ABORTED'
+                        error('Erro')
                     }
                 }
             }
@@ -75,15 +73,22 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    dir('tests') {
-                        try {
-                            sh 'dotnet test'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel executar os testes - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
+                    try {
+                        withEnv([
+                            "MYSQL_HOST=mysql-locacar-test",
+                            "MYSQL_PORT=3310",
+                            "MYSQL_DATABASE=locacar",
+                            "MYSQL_USER=root",
+                            "MYSQL_PASSWORD=root"
+                        ]) {
+                            sh 'dotnet test tests/LocaCar.Tests.Unit/'
+                            sh 'dotnet test tests/LocaCar.Tests.Integration/'
                         }
+                    } catch (Exception e) {
+                        slackSend (color: 'error', message: "[ FALHA ] Não foi possivel executar os testes - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+                        sh "echo $e"
+                        currentBuild.result = 'ABORTED'
+                        error('Erro')
                     }
                 }
             }
@@ -92,7 +97,7 @@ pipeline {
         stage('Database Teardown') {
             steps {
                 script {
-                    dir('src') {
+                    dir('src/LocaCar.Api/') {
                         try {
                             sh 'docker-compose down'
                         } catch (Exception e) {
@@ -109,15 +114,13 @@ pipeline {
         stage('Build Project') {
             steps {
                 script {
-                    dir('src') {
-                        try {
-                            sh 'dotnet build'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o build - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
+                    try {
+                        sh 'dotnet build src/LocaCar.Api/'
+                    } catch (Exception e) {
+                        slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o build - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+                        sh "echo $e"
+                        currentBuild.result = 'ABORTED'
+                        error('Erro')
                     }
                 }
             }
@@ -137,7 +140,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    dir('src') {
+                    dir('src/LocaCar.Api') {
                         try {
                             withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                                 sh 'export SONAR_SCANNER_OPTS="-Dfile.encoding=UTF-8"'
@@ -177,7 +180,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        dockerapp = docker.build("marcoservio/locacar:${env.BUILD_ID}", '-f ./src/Dockerfile ./src')
+                        dockerapp = docker.build("marcoservio/locacar:${env.BUILD_ID}", '-f ./src/LocaCar.Api/Dockerfile ./src/LocaCar.Api')
                     } catch (Exception e) {
                             slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o build do Docker - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
                             sh "echo $e"

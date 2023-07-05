@@ -10,3 +10,6 @@ Kubernetes monitoring
 
 Nginx
 12708
+
+Netdata
+12279

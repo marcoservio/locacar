@@ -25,8 +25,8 @@ while true
 	#     curl --silent --output /dev/null http://${HOST}/topicos/0
     #     fi
 
-	curl --silent --output /dev/null http://${HOST}/WeatherForecast
-	curl --silent --output /dev/null http://${HOST}/WeatherForecast/teste
+	curl --silent --output /dev/null http://${HOST}/carro
+	curl --silent --output /dev/null http://${HOST}/carro/teste
 
 	sleep 0.50
 done

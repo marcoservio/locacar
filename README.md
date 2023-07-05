@@ -26,6 +26,7 @@ Em resumo, a aplicação consiste em uma API containerizada com Docker, que poss
 - Helm
 - SonarQube
 - Prometheus
+- Netdata
 - Grafana
 - Alertmanager - Slack
 - NGINX
@@ -40,7 +41,7 @@ Em resumo, a aplicação consiste em uma API containerizada com Docker, que poss
 
 + Docker
 
-+ Kubernetes
++ Kubernetes - Helm
 
 
 
@@ -148,6 +149,7 @@ Certifique-se de que seu cluster Kubernetes e o Helm esteja em execução e conf
 - Para receber mensagens do Alertmanager no Slack, crie um canal para receber os alerts e instale o "incoming-webhook" no Slack escolhendo o canal criado para receber os alerts. Copie a URL do webhook gerada e cole-a no arquivo "alertmanager-configmap.yaml" (slack_api_url).
 - O ambiente kubernetes pode ser facilmente aplicado em qualquer provedor de nunvem sem muitas alterações.
 - As métricas do kubernetes/prometheus podem ter algumas limitações ao serem executadas em um ambiente de nuvem ou pelo helm.
+- Se a API Key estiver válida, a descrição do veículo será fornecida pelo ChatGPT durante o processo de cadastro. No entanto, se a API Key estiver expirada, a descrição será substituída pela que foi fornecida durante a inserção.
 
 
 
@@ -161,7 +163,7 @@ Sinta-se à vontade para contribuir com melhorias para este projeto. Basta fazer
 
 
 ## Licença
-Este projeto está licenciado sob a licença MIT.
+<img src="https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge"> 
 
 
 
@@ -176,6 +178,7 @@ Este projeto está licenciado sob a licença MIT.
 - [Helm](https://helm.sh/docs/)
 - [SonarQube](https://docs.sonarqube.org/latest/)
 - [Prometheus](https://prometheus.io/docs/)
+- [Netdata](https://learn.netdata.cloud/docs/)
 - [Grafana](https://grafana.com/docs/)
 - [Alertmanager](https://prometheus.io/docs/alerting/latest/configuration/)
 - [NGINX](https://nginx.org/en/docs/)
