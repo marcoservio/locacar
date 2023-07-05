@@ -75,7 +75,7 @@ pipeline {
                 script {
                     try {
                         withEnv([
-                            "MYSQL_HOST=mysql-locacar-test",
+                            "MYSQL_HOST=localhost",
                             "MYSQL_PORT=3310",
                             "MYSQL_DATABASE=locacar",
                             "MYSQL_USER=root",
