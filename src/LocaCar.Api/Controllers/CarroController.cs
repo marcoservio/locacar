@@ -3,6 +3,8 @@
 using Microsoft.AspNetCore.Mvc;
 using LocaCar.Api.Interfaces.Services;
 using LocaCar.Api.Authentication;
+using AutoMapper;
+using LocaCar.Api.Dtos;
 
 namespace LocaCar.Api.Controllers
 {
@@ -11,21 +13,23 @@ namespace LocaCar.Api.Controllers
     public class CarroController : ControllerBase
     {
         private readonly ICarroService _carroService;
+        private readonly IMapper _mapper;
 
-        public CarroController(ICarroService carroService)
+        public CarroController(ICarroService carroService, IMapper mapper = null)
         {
             _carroService = carroService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Carro>>> GetAllCarros()
         {
-            var lstCarros = await _carroService.GetAll();
+            var carros = await _carroService.GetAll();
 
-            if (lstCarros != null && lstCarros.ToList().Count > 0)
-                return Ok(lstCarros);
+            if (carros == null && carros.ToList().Count == 0)
+                return NotFound("Não há nenhum carro registrado.");
 
-            return NotFound("Não há nenhum carro registrado.");
+            return Ok(_mapper.Map<IEnumerable<CarroDto>>(carros));
         }
 
         [HttpGet("{id}")]
@@ -33,17 +37,17 @@ namespace LocaCar.Api.Controllers
         {
             var carro = await _carroService.GetById(id);
 
-            if (carro != null)
-                return Ok(carro);
+            if (carro == null)
+                return NotFound("Carro não encontrado.");
 
-            return NotFound("Carro não encontrado.");
+            return Ok(_mapper.Map<CarroDto>(carro));
         }
 
         [HttpPost]
         [ApiKey]
-        public async Task<ActionResult> AddCarro(Carro carro)
+        public async Task<ActionResult> AddCarro(CarroDto carroDto)
         {
-            _carroService.Add(carro);
+            _carroService.Add(_mapper.Map<Carro>(carroDto));
 
             if (await _carroService.SaveAllAsync())
                 return Ok("Carro cadastrado com sucesso.");
@@ -53,9 +57,15 @@ namespace LocaCar.Api.Controllers
 
         [HttpPut]
         [ApiKey]
-        public async Task<ActionResult> UpdateCarro(Carro carro)
+        public async Task<ActionResult> UpdateCarro(CarroDto carroDto)
         {
-            _carroService.Update(carro);
+            var carro = await _carroService.GetById(carroDto.Id);
+            if (carro == null)
+                return NotFound("Carro não encontrado.");
+            if (carroDto.Id == 0)
+                return BadRequest("Não é possivel alterar o carro. É preciso informar o ID.");
+
+            _carroService.Update(_mapper.Map<Carro>(carroDto));
 
             if (await _carroService.SaveAllAsync())
                 return Ok("Carro alterado com sucesso.");
@@ -64,11 +74,10 @@ namespace LocaCar.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ApiKeyAttribute]
+        [ApiKey]
         public async Task<ActionResult> DeleteCarro(int id)
         {
             var carro = await _carroService.GetById(id);
-
             if (carro == null)
                 return NotFound("Carro não encontrado.");
 

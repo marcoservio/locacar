@@ -10,12 +10,12 @@ using Xunit.Abstractions;
 
 namespace LocaCar.Tests.Integration
 {
-    public class CarroRepositoryTeste : IDisposable
+    public class CarroRepositoryTest : IDisposable
     {
         private readonly ICarroRepository _carroRepository;
         private ITestOutputHelper _saidaConsoleTeste { get; set; }
 
-        public CarroRepositoryTeste(ITestOutputHelper saidaConsoleTeste)
+        public CarroRepositoryTest(ITestOutputHelper saidaConsoleTeste)
         {
             _saidaConsoleTeste = saidaConsoleTeste;
             var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
@@ -38,6 +38,7 @@ namespace LocaCar.Tests.Integration
         public void Dispose()
         {
             _saidaConsoleTeste.WriteLine("Done");
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -29,9 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
     <Folder Include="Helpers\" />
     <Folder Include="Enums\" />
-    <Folder Include="Profiles\" />
   </ItemGroup>
 </Project>

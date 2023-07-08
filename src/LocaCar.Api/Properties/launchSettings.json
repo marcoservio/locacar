@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "CatalogoCarros": {
+    "LocaCar.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

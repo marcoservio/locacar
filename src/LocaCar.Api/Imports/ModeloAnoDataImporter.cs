@@ -3,8 +3,6 @@ using LocaCar.Api.Models;
 
 using Newtonsoft.Json;
 
-using System.Linq;
-
 namespace LocaCar.Api.Imports
 {
     public class ModeloAnoDataImporter : DataImporter
@@ -39,9 +37,12 @@ namespace LocaCar.Api.Imports
             var url = $"https://parallelum.com.br/fipe/api/v1/carros/marcas/{marca.Codigo}/modelos";
             var response = await _httpClient.GetAsync(url);
             var json = await response.Content.ReadAsStringAsync();
-            var lstImports = JsonConvert.DeserializeObject<DadosImportados>(json);
+            var import = JsonConvert.DeserializeObject<DadosImportados>(json);
 
-            foreach (var modelo in lstImports.Modelos)
+            if (!string.IsNullOrEmpty(import.Error))
+                throw new InvalidOperationException(import.Error);
+
+            foreach (var modelo in import.Modelos)
             {
                 if (!_context.Modelos.Any(m => m.Codigo == modelo.Codigo))
                 {
@@ -62,24 +63,33 @@ namespace LocaCar.Api.Imports
                 var url = $"https://parallelum.com.br/fipe/api/v1/carros/marcas/{marca.Codigo}/modelos/{modelo.Codigo}/anos";
                 var response = await _httpClient.GetAsync(url);
                 var json = await response.Content.ReadAsStringAsync();
-                var lstAnos = JsonConvert.DeserializeObject<List<Ano>>(json);
 
-                foreach (var ano in lstAnos)
+                try
                 {
-                    var anoModelo = new AnoModelo
+                    var lstAnos = JsonConvert.DeserializeObject<List<Ano>>(json);
+
+                    foreach (var ano in lstAnos)
                     {
-                        Modelo = modelo
-                    };
+                        var anoModelo = new AnoModelo
+                        {
+                            Modelo = modelo
+                        };
 
-                    if (!_context.Anos.Any(a => a.Codigo == ano.Codigo))
-                        anoModelo.Ano = ano;
-                    else
-                        anoModelo.Ano = _context.Anos.FirstOrDefault(a => a.Codigo.Equals(ano.Codigo));
+                        if (!_context.Anos.Any(a => a.Codigo == ano.Codigo))
+                            anoModelo.Ano = ano;
+                        else
+                            anoModelo.Ano = _context.Anos.FirstOrDefault(a => a.Codigo.Equals(ano.Codigo));
 
-                    _context.AnosModelos.Add(anoModelo);
+                        _context.AnosModelos.Add(anoModelo);
+                    }
+
+                    await _context.SaveChangesAsync();
                 }
-
-                await _context.SaveChangesAsync();
+                catch
+                {
+                    var error = JsonConvert.DeserializeObject<ErrorImport>(json);
+                    throw new InvalidOperationException(error.ErrorMessage);
+                }
             }
         }
     }
@@ -88,5 +98,6 @@ namespace LocaCar.Api.Imports
     {
         public List<Modelo> Modelos { get; set; }
         public List<Ano> Anos { get; set; }
+        public string Error { get; set; }
     }
 }

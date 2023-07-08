@@ -1,0 +1,11 @@
+﻿C:\projects\locacar\tests\LocaCar.Tests.Integration\CarroControllerTest.cs
+C:\projects\locacar\tests\LocaCar.Tests.Integration\CarroRepositoryTest.cs
+C:\projects\locacar\tests\LocaCar.Tests.Integration\Usings.cs
+C:\Users\Marco Sérvio\.nuget\packages\microsoft.net.test.sdk\17.6.3\build\netcoreapp3.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\Marco Sérvio\.nuget\packages\microsoft.testplatform.testhost\17.6.3\build\netcoreapp3.1\x64\testhost.exe
+C:\Users\Marco Sérvio\.nuget\packages\microsoft.testplatform.testhost\17.6.3\build\netcoreapp3.1\x64\testhost.dll
+C:\Users\Marco Sérvio\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\Marco Sérvio\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\Marco Sérvio\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.utility.netcoreapp10.dll
+C:\projects\locacar\tests\LocaCar.Tests.Integration\TestResults\3642da7f-c440-4967-ade9-6c7972dea5a1\coverage.cobertura.xml
+C:\projects\locacar\tests\LocaCar.Tests.Integration\TestResults\resltado-teste.html

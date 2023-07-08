@@ -1,0 +1,35 @@
+N
+EC:\projects\locacar\src\LocaCar.Api\Authentication\ApiKeyAttribute.csutf-8E
+<C:\projects\locacar\src\LocaCar.Api\Chatbot\ChatbotClient.csutf-8K
+BC:\projects\locacar\src\LocaCar.Api\Controllers\CarroController.csutf-8A
+8C:\projects\locacar\src\LocaCar.Api\Data\AppDbContext.csutf-8B
+9C:\projects\locacar\src\LocaCar.Api\Data\DbInitializer.csutf-8Z
+QC:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\AnoConfiguration.csutf-8`
+WC:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\AnoModeloConfiguration.csutf-8\
+SC:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\CarroConfiguration.csutf-8\
+SC:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\MarcaConfiguration.csutf-8]
+TC:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\ModeloConfiguration.csutf-8M
+DC:\projects\locacar\src\LocaCar.Api\Data\SeedData\CarroDataSeeder.csutf-8H
+?C:\projects\locacar\src\LocaCar.Api\Data\SeedData\DataSeeder.csutf-8D
+;C:\projects\locacar\src\LocaCar.Api\Imports\DataImporter.csutf-8P
+GC:\projects\locacar\src\LocaCar.Api\Imports\ImportsBackgroundService.csutf-8I
+@C:\projects\locacar\src\LocaCar.Api\Imports\MarcaDataImporter.csutf-8M
+DC:\projects\locacar\src\LocaCar.Api\Imports\ModeloAnoDataImporter.csutf-8X
+OC:\projects\locacar\src\LocaCar.Api\Interfaces\Repositories\ICarroRepository.csutf-8Q
+HC:\projects\locacar\src\LocaCar.Api\Interfaces\Services\ICarroService.csutf-8\
+SC:\projects\locacar\src\LocaCar.Api\Migrations\20230702010541_Migração Inicial.csutf-8g
+\C:\projects\locacar\src\LocaCar.Api\Migrations\20230702010541_Migração Inicial.Designer.csutf-8V
+KC:\projects\locacar\src\LocaCar.Api\Migrations\AppDbContextModelSnapshot.csutf-8:
+1C:\projects\locacar\src\LocaCar.Api\Models\Ano.csutf-8@
+7C:\projects\locacar\src\LocaCar.Api\Models\AnoModelo.csutf-8<
+3C:\projects\locacar\src\LocaCar.Api\Models\Carro.csutf-8B
+9C:\projects\locacar\src\LocaCar.Api\Models\ErrorImport.csutf-8<
+3C:\projects\locacar\src\LocaCar.Api\Models\Marca.csutf-8=
+4C:\projects\locacar\src\LocaCar.Api\Models\Modelo.csutf-87
+.C:\projects\locacar\src\LocaCar.Api\Program.csutf-8L
+CC:\projects\locacar\src\LocaCar.Api\Repositories\CarroRepository.csutf-8E
+<C:\projects\locacar\src\LocaCar.Api\Services\CarroService.csutf-8]
+RC:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.GlobalUsings.g.csutf-8n
+cC:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.csutf-8[
+PC:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.AssemblyInfo.csutf-8n
+cC:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.MvcApplicationPartsAssemblyInfo.csutf-8

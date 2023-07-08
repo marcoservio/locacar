@@ -1,0 +1,37 @@
+﻿C:\projects\locacar\src\LocaCar.Api\Authentication\ApiKeyAttribute.cs
+C:\projects\locacar\src\LocaCar.Api\Chatbot\ChatbotClient.cs
+C:\projects\locacar\src\LocaCar.Api\Controllers\CarroController.cs
+C:\projects\locacar\src\LocaCar.Api\Data\AppDbContext.cs
+C:\projects\locacar\src\LocaCar.Api\Data\DbInitializer.cs
+C:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\AnoConfiguration.cs
+C:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\AnoModeloConfiguration.cs
+C:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\CarroConfiguration.cs
+C:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\MarcaConfiguration.cs
+C:\projects\locacar\src\LocaCar.Api\Data\ModelsConfigurations\ModeloConfiguration.cs
+C:\projects\locacar\src\LocaCar.Api\Data\SeedData\CarroDataSeeder.cs
+C:\projects\locacar\src\LocaCar.Api\Data\SeedData\DataSeeder.cs
+C:\projects\locacar\src\LocaCar.Api\Imports\DataImporter.cs
+C:\projects\locacar\src\LocaCar.Api\Imports\ImportsBackgroundService.cs
+C:\projects\locacar\src\LocaCar.Api\Imports\MarcaDataImporter.cs
+C:\projects\locacar\src\LocaCar.Api\Imports\ModeloAnoDataImporter.cs
+C:\projects\locacar\src\LocaCar.Api\Interfaces\Repositories\ICarroRepository.cs
+C:\projects\locacar\src\LocaCar.Api\Interfaces\Services\ICarroService.cs
+C:\projects\locacar\src\LocaCar.Api\Migrations\20230702010541_Migração Inicial.cs
+C:\projects\locacar\src\LocaCar.Api\Migrations\20230702010541_Migração Inicial.Designer.cs
+C:\projects\locacar\src\LocaCar.Api\Migrations\AppDbContextModelSnapshot.cs
+C:\projects\locacar\src\LocaCar.Api\Models\Ano.cs
+C:\projects\locacar\src\LocaCar.Api\Models\AnoModelo.cs
+C:\projects\locacar\src\LocaCar.Api\Models\Carro.cs
+C:\projects\locacar\src\LocaCar.Api\Models\ErrorImport.cs
+C:\projects\locacar\src\LocaCar.Api\Models\Marca.cs
+C:\projects\locacar\src\LocaCar.Api\Models\Modelo.cs
+C:\projects\locacar\src\LocaCar.Api\Program.cs
+C:\projects\locacar\src\LocaCar.Api\Repositories\CarroRepository.cs
+C:\projects\locacar\src\LocaCar.Api\Services\CarroService.cs
+C:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.GlobalUsings.g.cs
+C:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+C:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.AssemblyInfo.cs
+C:\projects\locacar\src\LocaCar.Api\obj\Debug\net6.0\LocaCar.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\projects\locacar\src\LocaCar.Api\appsettings.Development.json
+C:\projects\locacar\src\LocaCar.Api\appsettings.json
+C:\projects\locacar\src\LocaCar.Api\Properties\launchSettings.json

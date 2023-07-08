@@ -1,4 +1,6 @@
-﻿namespace LocaCar.Api.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace LocaCar.Api.Models
 {
     public class Marca
     {

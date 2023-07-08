@@ -1,0 +1,1 @@
+C:\projects\locacar\tests\LocaCar.Tests.Integration\.sonarqube\out\1

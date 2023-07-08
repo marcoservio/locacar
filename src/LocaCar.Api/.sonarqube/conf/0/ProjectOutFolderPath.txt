@@ -1,0 +1,1 @@
+C:\projects\locacar\src\LocaCar.Api\.sonarqube\out\0

@@ -2,27 +2,6 @@
 {
     public class Carro
     {
-        public Carro()
-        {
-                
-        }
-
-        public Carro(string marca, string modelo, string ano, string cor, string tipoCorpo, string motor, string transmissao, decimal quilometragem, decimal preco, int numeroPortas, int capacidadePassageiros, string descricao)
-        {
-            Marca = marca;
-            Modelo = modelo;
-            Ano = ano;
-            Cor = cor;
-            TipoCorpo = tipoCorpo;
-            Motor = motor;
-            Transmissao = transmissao;
-            Quilometragem = quilometragem;
-            Preco = preco;
-            NumeroPortas = numeroPortas;
-            CapacidadePassageiros = capacidadePassageiros;
-            Descricao = descricao;
-        }
-
         public int Id { get; set; }
         public string Marca { get; set; }
         public string Modelo { get; set; }
