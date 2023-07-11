@@ -180,7 +180,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        dockerapp = docker.build("marcoservio/locacar:${env.BUILD_ID}", '-f ./src/LocaCar.Api/Dockerfile ./src/LocaCar.Api')
+                        dockerapp = docker.build("marcoservio/locacar:${env.BUILD_ID}", '-f ./src/Dockerfile ./src/')
                     } catch (Exception e) {
                             slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o build do Docker - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
                             sh "echo $e"
