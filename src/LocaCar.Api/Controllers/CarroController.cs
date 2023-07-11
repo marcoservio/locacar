@@ -26,10 +26,12 @@ namespace LocaCar.Api.Controllers
         {
             var carros = await _carroService.GetAll();
 
-            if (carros == null && carros.ToList().Count == 0)
+            if (carros == null || !carros.Any())
                 return NotFound("Não há nenhum carro registrado.");
 
-            return Ok(_mapper.Map<IEnumerable<CarroDto>>(carros));
+            var rakljsd = _mapper.Map<IEnumerable<CarroDto>>(carros);
+
+            return Ok(rakljsd);
         }
 
         [HttpGet("{id}")]
@@ -59,11 +61,12 @@ namespace LocaCar.Api.Controllers
         [ApiKey]
         public async Task<ActionResult> UpdateCarro(CarroDto carroDto)
         {
+            if (carroDto.Id == 0)
+                return BadRequest("Não é possivel alterar o carro. É preciso informar o ID.");
+
             var carro = await _carroService.GetById(carroDto.Id);
             if (carro == null)
                 return NotFound("Carro não encontrado.");
-            if (carroDto.Id == 0)
-                return BadRequest("Não é possivel alterar o carro. É preciso informar o ID.");
 
             _carroService.Update(_mapper.Map<Carro>(carroDto));
 

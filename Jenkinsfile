@@ -37,23 +37,23 @@ pipeline {
             }
         }
 
-        stage('Database Setup') {
-            steps {
-                script {
-                    dir('src/LocaCar.Api/') {
-                        try {
-                            sh 'docker-compose up -d'
-                            sleep time: 30, unit: 'SECONDS'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel subir o Banco de Dados MySQL - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
-                    }
-                }
-            }
-        }
+        // stage('Database Setup') {
+        //     steps {
+        //         script {
+        //             dir('src/LocaCar.Api/') {
+        //                 try {
+        //                     sh 'docker-compose up -d'
+        //                     sleep time: 30, unit: 'SECONDS'
+        //                 } catch (Exception e) {
+        //                     slackSend (color: 'error', message: "[ FALHA ] Não foi possivel subir o Banco de Dados MySQL - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+        //                     sh "echo $e"
+        //                     currentBuild.result = 'ABORTED'
+        //                     error('Erro')
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Restore Dependencies') {
             steps {
@@ -94,22 +94,22 @@ pipeline {
             }
         }
 
-        stage('Database Teardown') {
-            steps {
-                script {
-                    dir('src/LocaCar.Api/') {
-                        try {
-                            sh 'docker-compose down'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel remover o Banco de Dados MySQL - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
-                    }
-                }
-            }
-        }       
+        // stage('Database Teardown') {
+        //     steps {
+        //         script {
+        //             dir('src/LocaCar.Api/') {
+        //                 try {
+        //                     sh 'docker-compose down'
+        //                 } catch (Exception e) {
+        //                     slackSend (color: 'error', message: "[ FALHA ] Não foi possivel remover o Banco de Dados MySQL - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+        //                     sh "echo $e"
+        //                     currentBuild.result = 'ABORTED'
+        //                     error('Erro')
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }       
 
         stage('Build Project') {
             steps {
@@ -126,38 +126,38 @@ pipeline {
             }
         } 
 
-        stage('SonarQube Check') {
-            steps {
-                script {
-                    slackSend (color: 'warning', message: "Antes de prosseguir, por favor, verifique se o SonarQube está disponível e totalmente inicializado. Acesse [Janela de 5 minutos]: ${JOB_URL}", tokenCredentialId: 'slack-token')
-                    timeout(time: 5, unit: 'MINUTES') {
-                        input(id: 'sonarqube-check', message: 'Verificação do SonarQube', ok: 'Continuar')
-                    }
-                }
-            }
-        }       
+        // stage('SonarQube Check') {
+        //     steps {
+        //         script {
+        //             slackSend (color: 'warning', message: "Antes de prosseguir, por favor, verifique se o SonarQube está disponível e totalmente inicializado. Acesse [Janela de 5 minutos]: ${JOB_URL}", tokenCredentialId: 'slack-token')
+        //             timeout(time: 5, unit: 'MINUTES') {
+        //                 input(id: 'sonarqube-check', message: 'Verificação do SonarQube', ok: 'Continuar')
+        //             }
+        //         }
+        //     }
+        // }       
         
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    dir('src/LocaCar.Api') {
-                        try {
-                            withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                                sh 'export SONAR_SCANNER_OPTS="-Dfile.encoding=UTF-8"'
-                                sh 'sudo /var/lib/jenkins/.dotnet/tools/dotnet-sonarscanner begin /k:"locacar" /d:sonar.host.url="http://localhost:9000" /d:sonar.verbose=true /d:sonar.token="${SONAR_TOKEN}"'
-                                sh 'sudo dotnet build'
-                                sh 'sudo /var/lib/jenkins/.dotnet/tools/dotnet-sonarscanner end /d:sonar.token="${SONAR_TOKEN}"'
-                            }
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Erro ao executar o SonarQube Analysis - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
-                    }
-                }
-            }
-        }
+        // stage('SonarQube Analysis') {
+        //     steps {
+        //         script {
+        //             dir('src/LocaCar.Api') {
+        //                 try {
+        //                     withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+        //                         sh 'export SONAR_SCANNER_OPTS="-Dfile.encoding=UTF-8"'
+        //                         sh 'sudo /var/lib/jenkins/.dotnet/tools/dotnet-sonarscanner begin /k:"locacar" /d:sonar.host.url="http://localhost:9000" /d:sonar.verbose=true /d:sonar.token="${SONAR_TOKEN}"'
+        //                         sh 'sudo dotnet build'
+        //                         sh 'sudo /var/lib/jenkins/.dotnet/tools/dotnet-sonarscanner end /d:sonar.token="${SONAR_TOKEN}"'
+        //                     }
+        //                 } catch (Exception e) {
+        //                     slackSend (color: 'error', message: "[ FALHA ] Erro ao executar o SonarQube Analysis - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+        //                     sh "echo $e"
+        //                     currentBuild.result = 'ABORTED'
+        //                     error('Erro')
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Publish Project') {
             steps {

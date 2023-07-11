@@ -1,0 +1,9 @@
+private readonly ICarroRepository _carroRepository;
+
+var configuration = new ConfigurationBuilder().AddEnvironmentVariables().Build();
+var connectionString = $"server={configuration["MYSQL_HOST"]};port={configuration["MYSQL_PORT"]};database={configuration["MYSQL_DATABASE"]};user={configuration["MYSQL_USER"]};password={configuration["MYSQL_PASSWORD"]}";
+var servico = new ServiceCollection();
+servico.AddDbContext<AppDbContext>(options => options.UseLazyLoadingProxies().UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+servico.AddTransient<ICarroRepository, CarroRepository>();
+var provedor = servico.BuildServiceProvider();
+_carroRepository = provedor.GetRequiredService<ICarroRepository>();

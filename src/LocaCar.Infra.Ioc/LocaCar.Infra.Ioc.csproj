@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocaCar.Application\LocaCar.Application.csproj" />
+    <ProjectReference Include="..\LocaCar.Domain\LocaCar.Domain.csproj" />
+    <ProjectReference Include="..\LocaCar.Infra.Data\LocaCar.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

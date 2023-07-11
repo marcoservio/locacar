@@ -32,4 +32,9 @@
     <Folder Include="Helpers\" />
     <Folder Include="Enums\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LocaCar.Infra.Ioc\LocaCar.Infra.Ioc.csproj" />
+    <ProjectReference Include="..\LocaCar.Domain\LocaCar.Domain.csproj" />
+  </ItemGroup>
 </Project>

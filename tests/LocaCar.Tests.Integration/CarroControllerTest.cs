@@ -1,23 +1,29 @@
-﻿using LocaCar.Api.Controllers;
+﻿using AutoMapper;
+
+using LocaCar.Api.Controllers;
+using LocaCar.Api.Dtos;
 using LocaCar.Api.Interfaces.Services;
+using LocaCar.Api.Mappings;
 using LocaCar.Api.Models;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 using Moq;
 
 namespace LocaCar.Tests.Integration
 {
-    public class CarroControllerTest
+    public class CarroControllerTest : IDisposable
     {
         private readonly Mock<ICarroService> _carroServiceMock;
         private readonly CarroController _carroController;
+        private readonly IMapper _mapper;
 
         public CarroControllerTest()
         {
+            var _config = new MapperConfiguration(cfg => cfg.AddProfile<EntitiesToDtoMappingProfile>());
             _carroServiceMock = new Mock<ICarroService>();
-            _carroController = new CarroController(_carroServiceMock.Object);
+            _mapper = _config.CreateMapper();
+            _carroController = new CarroController(_carroServiceMock.Object, _mapper);
         }
 
         [Fact]
@@ -30,7 +36,7 @@ namespace LocaCar.Tests.Integration
 
             Assert.IsType<OkObjectResult>(resultado.Result);
             var okObjectResult = resultado.Result as OkObjectResult;
-            var listaRetornada = okObjectResult.Value as IEnumerable<Carro>;
+            var listaRetornada = okObjectResult.Value as IEnumerable<CarroDto>;
             Assert.Equal(carros.Count, listaRetornada.Count());
         }
 
@@ -57,7 +63,7 @@ namespace LocaCar.Tests.Integration
 
             Assert.IsType<OkObjectResult>(resultado);
             var okObjectResult = resultado as OkObjectResult;
-            var carroRetornado = okObjectResult.Value as Carro;
+            var carroRetornado = okObjectResult.Value as CarroDto;
             Assert.Equal(id, carroRetornado.Id);
         }
 
@@ -77,10 +83,10 @@ namespace LocaCar.Tests.Integration
         [Fact]
         public async Task AddCarro_DeveRetornarOk_QuandoInsercaoForBemSucedida()
         {
-            _carroServiceMock.Setup(service => service.Add(It.IsAny<Carro>()));
+            var carroDto = new CarroDto { Marca = "Volkswagen", Modelo = "Golf", Ano = "2022", Cor = "Prata", TipoCorpo = "Hatchback", Motor = "1.4L", Transmissao = "Automática", Quilometragem = 5000.2m, Preco = 35000.50m, NumeroPortas = 4, CapacidadePassageiros = 5, Descricao = "O Volkswagen Golf 2022 é um hatchback elegante e esportivo com um motor potente e tecnologia avançada." };
             _carroServiceMock.Setup(service => service.SaveAllAsync()).ReturnsAsync(true);
 
-            var result = await _carroController.AddCarro(new Carro());
+            var result = await _carroController.AddCarro(carroDto);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal("Carro cadastrado com sucesso.", okResult.Value);
@@ -89,10 +95,10 @@ namespace LocaCar.Tests.Integration
         [Fact]
         public async Task AddCarro_DeveRetornarBadRequest_QuandoOcorrerErroNaInsercao()
         {
-            _carroServiceMock.Setup(service => service.Add(It.IsAny<Carro>()));
+            var carroDto = new CarroDto { Marca = "Volkswagen", Modelo = "Golf", Ano = "2022", Cor = "Prata", TipoCorpo = "Hatchback", Motor = "1.4L", Transmissao = "Automática", Quilometragem = 5000.2m, Preco = 35000.50m, NumeroPortas = 4, CapacidadePassageiros = 5, Descricao = "O Volkswagen Golf 2022 é um hatchback elegante e esportivo com um motor potente e tecnologia avançada." };
             _carroServiceMock.Setup(service => service.SaveAllAsync()).ReturnsAsync(false);
 
-            var result = await _carroController.AddCarro(new Carro());
+            var result = await _carroController.AddCarro(carroDto);
 
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
             Assert.Equal("Ocorreu um erro ao salvar o carro.", badRequestResult.Value);
@@ -102,11 +108,11 @@ namespace LocaCar.Tests.Integration
         public async Task UpdateCarro_DeveRetornarOk_QuandoAtualizacaoForBemSucedida()
         {
             var carroId = 1;
-            var updatedCarro = new Carro { Id = carroId, Modelo = "Updated Carro" };
+            var updatedCarro = new Carro { Id = carroId, Marca = "Volkswagen Updated", Modelo = "Golf", Ano = "2022", Cor = "Prata", TipoCorpo = "Hatchback", Motor = "1.4L", Transmissao = "Automática", Quilometragem = 5000.2m, Preco = 35000.50m, NumeroPortas = 4, CapacidadePassageiros = 5, Descricao = "O Volkswagen Golf 2022 é um hatchback elegante e esportivo com um motor potente e tecnologia avançada." };
             _carroServiceMock.Setup(repo => repo.GetById(carroId)).ReturnsAsync(updatedCarro);
             _carroServiceMock.Setup(repo => repo.SaveAllAsync()).ReturnsAsync(true);
 
-            var resultado = await _carroController.UpdateCarro(updatedCarro);
+            var resultado = await _carroController.UpdateCarro(_mapper.Map<CarroDto>(updatedCarro));
 
             Assert.IsType<OkObjectResult>(resultado);
             var okObjectResult = resultado as OkObjectResult;
@@ -114,12 +120,42 @@ namespace LocaCar.Tests.Integration
         }
 
         [Fact]
+        public async Task UpdateCarro_DeveRetornarNotFound_QuandoNaoExistirCarro()
+        {
+            var carroId = 1;
+            var updatedCarro = new Carro { Id = carroId };
+            _carroServiceMock.Setup(repo => repo.GetById(carroId)).ReturnsAsync((Carro)null);
+            _carroServiceMock.Setup(repo => repo.SaveAllAsync()).ReturnsAsync(true);
+
+            var resultado = await _carroController.UpdateCarro(_mapper.Map<CarroDto>(updatedCarro));
+
+            Assert.IsType<NotFoundObjectResult>(resultado);
+            var notFoundObjectResult = resultado as NotFoundObjectResult;
+            Assert.Equal("Carro não encontrado.", notFoundObjectResult.Value);
+        }
+
+        [Fact]
+        public async Task UpdateCarro_DeveRetornarBadRequest_QuandoNaoExistirIdCarro()
+        {
+            var updatedCarro = new Carro { Marca = "Volkswagen Updated", Modelo = "Golf", Ano = "2022", Cor = "Prata", TipoCorpo = "Hatchback", Motor = "1.4L", Transmissao = "Automática", Quilometragem = 5000.2m, Preco = 35000.50m, NumeroPortas = 4, CapacidadePassageiros = 5, Descricao = "O Volkswagen Golf 2022 é um hatchback elegante e esportivo com um motor potente e tecnologia avançada." };
+            _carroServiceMock.Setup(repo => repo.SaveAllAsync()).ReturnsAsync(true);
+
+            var resultado = await _carroController.UpdateCarro(_mapper.Map<CarroDto>(updatedCarro));
+
+            Assert.IsType<BadRequestObjectResult>(resultado);
+            var badRequestObjectResult = resultado as BadRequestObjectResult;
+            Assert.Equal("Não é possivel alterar o carro. É preciso informar o ID.", badRequestObjectResult.Value);
+        }
+
+        [Fact]
         public async Task UpdateLaunch_DeveRetornarBadRequest_QuandoOcorrerErroNaAtualizacao()
         {
-            var carro = new Carro();
+            var carroId = 1;
+            var updatedCarro = new Carro { Id = carroId, Marca = "Volkswagen Updated", Modelo = "Golf", Ano = "2022", Cor = "Prata", TipoCorpo = "Hatchback", Motor = "1.4L", Transmissao = "Automática", Quilometragem = 5000.2m, Preco = 35000.50m, NumeroPortas = 4, CapacidadePassageiros = 5, Descricao = "O Volkswagen Golf 2022 é um hatchback elegante e esportivo com um motor potente e tecnologia avançada." };
+            _carroServiceMock.Setup(repo => repo.GetById(carroId)).ReturnsAsync(updatedCarro);
             _carroServiceMock.Setup(repo => repo.SaveAllAsync()).ReturnsAsync(false);
 
-            var resultado = await _carroController.UpdateCarro(carro);
+            var resultado = await _carroController.UpdateCarro(_mapper.Map<CarroDto>(updatedCarro));
 
             Assert.IsType<BadRequestObjectResult>(resultado);
             var badRequestObjectResult = resultado as BadRequestObjectResult;
@@ -167,6 +203,11 @@ namespace LocaCar.Tests.Integration
             Assert.IsType<BadRequestObjectResult>(resultado);
             var badRequestObjectResult = resultado as BadRequestObjectResult;
             Assert.Equal("Ocorreu um erro ao excluir o carro.", badRequestObjectResult.Value);
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
     }
 }
