@@ -1,4 +1,0 @@
-Latencia
-Erros
-Trafego
-Saturação

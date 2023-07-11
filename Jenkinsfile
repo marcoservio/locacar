@@ -159,22 +159,22 @@ pipeline {
         //     }
         // }
 
-        stage('Publish Project') {
-            steps {
-                script {
-                    dir('src/LocaCar.Api') {
-                        try {
-                            sh 'dotnet publish -c Release -o publish'
-                        } catch (Exception e) {
-                            slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o publish - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
-                            sh "echo $e"
-                            currentBuild.result = 'ABORTED'
-                            error('Erro')
-                        }
-                    }
-                }
-            }
-        }
+        // stage('Publish Project') {
+        //     steps {
+        //         script {
+        //             dir('src/LocaCar.Api') {
+        //                 try {
+        //                     sh 'dotnet publish -c Release -o publish'
+        //                 } catch (Exception e) {
+        //                     slackSend (color: 'error', message: "[ FALHA ] Não foi possivel fazer o publish - ${BUILD_URL} em ${currentBuild.durationString}s", tokenCredentialId: 'slack-token')
+        //                     sh "echo $e"
+        //                     currentBuild.result = 'ABORTED'
+        //                     error('Erro')
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Docker Image Build') {
             steps {

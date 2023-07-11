@@ -24,7 +24,7 @@ services:
 
   app-locacar:
     build:
-      context: ./src/LocaCar.Api
+      context: ./src
       dockerfile: Dockerfile
       args:
         version: 1
